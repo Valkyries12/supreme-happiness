@@ -4,9 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-
 flask = "*"
 "flask-bootstrap" = "*"
 "flask-wtf" = "*"
 
 [dev-packages]
+pylint = "<2.0.0"

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %} Listado {% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">    
+            <h1>Clientes de Conesa Inc.</h1>
+        </div>
+
+        <table class="table">
+            <thead>
+                {% for header in headers %}
+                    <th>{{ header }}</th>
+                {% endfor %}
+                
+            </thead>
+            <tbody>
+                <td>{{ sig }}</td>
+            </tbody>
+        </table>
+    </div>
+
+{% endblock content %}

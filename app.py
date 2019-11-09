@@ -95,5 +95,14 @@ def logout():
         return redirect(url_for('index'))
 
 
+@app.route("/listado")
+def listado():
+    with open("clientes.csv") as archivo:
+        archivo_csv = csv.DictReader(archivo)
+        headers = next(archivo_csv)
+        sig = next(archivo_csv["Fecha"])
+    return render_template("listado.html", headers=headers,sig=sig)
+
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
