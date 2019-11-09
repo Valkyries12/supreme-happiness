@@ -19,15 +19,6 @@ def index():
     return render_template('index.html', fecha_actual=datetime.utcnow())
 
 
-@app.route('/saludar', methods=['GET', 'POST'])
-def saludar():
-    formulario = SaludarForm()
-    if formulario.validate_on_submit():  # Acá hice el POST si es True
-        print(formulario.usuario.name)
-        return redirect(url_for('saludar_persona', usuario=formulario.usuario.data))
-    return render_template('saludar.html', form=formulario)
-
-
 @app.errorhandler(404)
 def no_encontrado(e):
     return render_template('404.html'), 404
@@ -78,14 +69,6 @@ def registrar():
     return render_template('registrar.html', form=formulario)
 
 
-@app.route('/secret', methods=['GET'])
-def secreto():
-    if 'username' in session:
-        return render_template('private.html', username=session['username'])
-    else:
-        return render_template('sin_permiso.html')
-
-
 @app.route('/logout', methods=['GET'])
 def logout():
     if 'username' in session:
@@ -95,15 +78,18 @@ def logout():
         return redirect(url_for('index'))
 
 
-@app.route("/listado")
-def listado():
-    with open("clientes.csv", encoding="utf8") as archivo:
-        archivo_csv = csv.DictReader(archivo)
-        headers = next(archivo_csv)
-        personas = []
-        for row in archivo_csv:
-            personas.append(row)
-    return render_template("listado.html", headers=headers, personas=personas)
+@app.route("/clientes")
+def clientes():
+    if "username" in session:
+        with open("clientes.csv", encoding="utf8") as archivo:
+            archivo_csv = csv.DictReader(archivo)
+            headers = next(archivo_csv)
+            personas = []
+            for row in archivo_csv:
+                personas.append(row)
+        return render_template("clientes.html", headers=headers, personas=personas)
+    else:
+        return render_template("500.html")
 
 
 if __name__ == "__main__":
