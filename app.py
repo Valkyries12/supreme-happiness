@@ -89,7 +89,7 @@ def clientes():
                 personas.append(row)
         return render_template("clientes.html", headers=headers, personas=personas, cantidad=len(personas))
     else:
-        return render_template("500.html")
+        return redirect(url_for("ingresar"))
 
 
 if __name__ == "__main__":
