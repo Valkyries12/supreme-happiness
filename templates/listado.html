@@ -7,15 +7,25 @@
             <h1>Clientes de Conesa Inc.</h1>
         </div>
 
-        <table class="table">
+        <table class="table table-bordered">
             <thead>
                 {% for header in headers %}
-                    <th>{{ header }}</th>
+                    <th class="info">{{ header }}</th>
                 {% endfor %}
-                
             </thead>
             <tbody>
-                <td>{{ sig }}</td>
+                {% for persona in personas %}
+                    <tr>
+                        <td>{{ persona["Nombre"] }}</td>
+                        <td>{{ persona["Edad"] }}</td>
+                        <td>{{ persona["Dirección"] }}</td>
+                        <td>{{ persona["País"] }}</td>
+                        <td>{{ persona["Documento"] }}</td>
+                        <td>{{ persona["Fecha Alta"] }}</td>
+                        <td>{{ persona["Correo Electrónico"] }}</td>
+                        <td>{{ persona["Trabajo"] }}</td>
+                    </tr>
+                {% endfor %}
             </tbody>
         </table>
     </div>

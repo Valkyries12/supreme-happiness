@@ -28,11 +28,6 @@ def saludar():
     return render_template('saludar.html', form=formulario)
 
 
-@app.route('/saludar/<usuario>')
-def saludar_persona(usuario):
-    return render_template('usuarios.html', nombre=usuario)
-
-
 @app.errorhandler(404)
 def no_encontrado(e):
     return render_template('404.html'), 404
@@ -60,6 +55,11 @@ def ingresar():
                 flash('Revisá nombre de usuario y contraseña')
                 return redirect(url_for('ingresar'))
     return render_template('login.html', formulario=formulario)
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
 
 
 @app.route('/registrar', methods=['GET', 'POST'])
@@ -97,11 +97,13 @@ def logout():
 
 @app.route("/listado")
 def listado():
-    with open("clientes.csv") as archivo:
+    with open("clientes.csv", encoding="utf8") as archivo:
         archivo_csv = csv.DictReader(archivo)
         headers = next(archivo_csv)
-        sig = next(archivo_csv["Fecha"])
-    return render_template("listado.html", headers=headers,sig=sig)
+        personas = []
+        for row in archivo_csv:
+            personas.append(row)
+    return render_template("listado.html", headers=headers, personas=personas)
 
 
 if __name__ == "__main__":
