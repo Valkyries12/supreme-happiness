@@ -58,7 +58,7 @@ def registrar():
     formulario = RegistrarForm()
     if formulario.validate_on_submit():
         if formulario.password.data == formulario.password_check.data:
-            with open('usuarios', 'a+') as archivo:
+            with open('usuarios', 'a+', newline='') as archivo:
                 archivo_csv = csv.writer(archivo)
                 registro = [formulario.usuario.data, formulario.password.data]
                 archivo_csv.writerow(registro)
@@ -87,7 +87,7 @@ def clientes():
             personas = []
             for row in archivo_csv:
                 personas.append(row)
-        return render_template("clientes.html", headers=headers, personas=personas)
+        return render_template("clientes.html", headers=headers, personas=personas, cantidad=len(personas))
     else:
         return render_template("500.html")
 
