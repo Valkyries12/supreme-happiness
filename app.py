@@ -5,7 +5,7 @@ from datetime import datetime
 from flask import Flask, render_template, redirect, url_for, flash, session
 from flask_bootstrap import Bootstrap
 
-from forms import LoginForm, SaludarForm, RegistrarForm
+from forms import LoginForm, SaludarForm, RegistrarForm, BuscarForm
 
 
 app = Flask(__name__)
@@ -92,9 +92,21 @@ def clientes():
         return redirect(url_for("ingresar"))
 
 
-@app.route("/clientes/pais")
+@app.route("/clientes/pais", methods=["GET", "POST"])
 def busqueda_por_pais():
-    return render_template("busqueda.html")
+    if "username" in session:
+        formulario = BuscarForm()
+        if formulario.validate_on_submit():#si hice post me envia los datos y sino me renderiza el formulario
+            pais = formulario.buscar.data
+            with open("clientes.csv", encoding="utf8") as archivo:
+                archivo_csv = csv.DictReader(archivo)
+                paises = []
+                for item in archivo_csv:
+                    if pais in item["País"]:
+                        paises.append(item["País"])
+                return render_template("busqueda.html", form=formulario, paises=paises)
+        return render_template("busqueda.html", form=formulario)
+    return redirect(url_for("ingresar"))
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)

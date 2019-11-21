@@ -17,3 +17,8 @@ class SaludarForm(FlaskForm):
 class RegistrarForm(LoginForm):
     password_check = PasswordField('Verificar Contraseña', validators=[Required()])
     enviar = SubmitField('Registrarse')
+
+
+class BuscarForm(FlaskForm):
+    buscar = StringField('Búsqueda:', validators=[Required()])
+    enviar = SubmitField('Buscar')
