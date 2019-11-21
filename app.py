@@ -108,5 +108,6 @@ def busqueda_por_pais():
         return render_template("busqueda.html", form=formulario)
     return redirect(url_for("ingresar"))
 
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
