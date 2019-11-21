@@ -92,5 +92,9 @@ def clientes():
         return redirect(url_for("ingresar"))
 
 
+@app.route("/clientes/pais")
+def busqueda_por_pais():
+    return render_template("busqueda.html")
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', debug=True)
