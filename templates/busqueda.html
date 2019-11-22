@@ -11,6 +11,12 @@
         <div class="page-header">
             {{ wtf.quick_form(form) }}
         </div>
+        {% for message in get_flashed_messages() %}
+            <div class="alert alert-danger">
+                    
+                {{ message }}
+            </div>
+        {% endfor %}
         {% if paises %}
             <ul>
                 {% for pais in paises %}
@@ -20,4 +26,5 @@
             </ul>
         {% endif %}
     </div>
+        
 {% endblock content %}

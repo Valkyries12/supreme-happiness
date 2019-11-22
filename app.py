@@ -104,6 +104,8 @@ def busqueda_por_pais():
                 for item in archivo_csv:
                     if pais in item["País"] and item["País"] not in paises:
                         paises.append(item["País"])
+                if not paises:
+                    flash('No se encontraron clientes')
                 return render_template("busqueda.html", form=formulario, paises=paises)
         return render_template("busqueda.html", form=formulario)
     return redirect(url_for("ingresar"))
