@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %} clientes {% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="page-header">    
+            <h1>Clientes de Conesa Inc.</h1>
+        </div>
+        <p>En la base existen {{ cantidad }} clientes</p>
+        <table class="table table-bordered">
+            <thead>
+                {% for header in headers %}
+                    <th class="info">{{ header }}</th>
+                {% endfor %}
+            </thead>
+            <tbody>
+                {% for cliente in clientes %}
+                    <tr>
+                        <td>{{ cliente["Nombre"] }}</td>
+                        <td>{{ cliente["Edad"] }}</td>
+                        <td>{{ cliente["Dirección"] }}</td>
+                        <td>{{ cliente["País"] }}</td>
+                        <td>{{ cliente["Documento"] }}</td>
+                        <td>{{ cliente["Fecha Alta"] }}</td>
+                        <td>{{ cliente["Correo Electrónico"] }}</td>
+                        <td>{{ cliente["Trabajo"] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock content %}

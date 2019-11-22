@@ -97,15 +97,29 @@ def busqueda_por_pais():
     if "username" in session:
         formulario = BuscarForm()
         if formulario.validate_on_submit():#si hice post me envia los datos y sino me renderiza el formulario
-            pais = formulario.buscar.data
+            pais = formulario.buscar.data.capitalize()
             with open("clientes.csv", encoding="utf8") as archivo:
                 archivo_csv = csv.DictReader(archivo)
                 paises = []
                 for item in archivo_csv:
-                    if pais in item["País"]:
+                    if pais in item["País"] and item["País"] not in paises:
                         paises.append(item["País"])
                 return render_template("busqueda.html", form=formulario, paises=paises)
         return render_template("busqueda.html", form=formulario)
+    return redirect(url_for("ingresar"))
+
+
+@app.route("/clientes/<string:pais>")
+def clientes_pais(pais:str):
+    if "username" in session:
+        with open("clientes.csv", encoding="utf8") as archivo:
+            archivo_csv = csv.DictReader(archivo)
+            headers = next(archivo_csv)
+            clientes = []
+            for cliente in archivo_csv:
+                if cliente["País"] == pais:
+                    clientes.append(cliente)
+            return render_template("clientes_pais.html", clientes=clientes, headers=headers, cantidad=len(clientes))
     return redirect(url_for("ingresar"))
 
 
