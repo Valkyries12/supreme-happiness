@@ -5,7 +5,7 @@ from datetime import datetime
 from flask import Flask, render_template, redirect, url_for, flash, session
 from flask_bootstrap import Bootstrap
 
-from forms import LoginForm, SaludarForm, RegistrarForm, BuscarForm
+from forms import LoginForm, SaludarForm, RegistrarForm, BuscarForm, ClienteForm
 
 
 app = Flask(__name__)
@@ -122,6 +122,23 @@ def clientes_pais(pais:str):
                 if cliente["País"] == pais:
                     clientes.append(cliente)
             return render_template("clientes_pais.html", clientes=clientes, headers=headers, cantidad=len(clientes))
+    return redirect(url_for("ingresar"))
+
+
+@app.route("/agregar_cliente", methods=['GET', 'POST'])
+def agregarCliente():
+    if "username" in session:
+        formulario = ClienteForm()
+        if formulario.validate_on_submit():#si hago post , si envio los datos me los guarda
+            with open("clientes.csv", "a+", newline='', encoding="utf8") as archivo:
+                archivo_csv = csv.writer(archivo)
+                registro = [formulario.nombre.data, formulario.edad.data, formulario.direccion.data,
+                    formulario.pais.data, formulario.documento.data, formulario.fecha_alta.data,
+                    formulario.email.data, formulario.trabajo.data ]
+                archivo_csv.writerow(registro)
+                flash('Cliente registrado correctamente')
+                return redirect(url_for("agregarCliente"))
+        return render_template("agregar_cliente.html", formulario=formulario)
     return redirect(url_for("ingresar"))
 
 
